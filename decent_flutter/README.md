@@ -3,7 +3,7 @@
 # Good luck lol
 
 ## The structure:
-
+```
   lib/
   ├── main.dart                        ← central overlay manager + search/settings bar
   ├── pages/
@@ -17,7 +17,7 @@
   │   ├── search.dart                 ← styled search bar widget
   │   ├── settings.dart               ← white cogwheel icon button
   │   └── title.dart                  ← mini title widget for showing selectable titles in results
-
+```
 ## To work on:
 
 * settings page
