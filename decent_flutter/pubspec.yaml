@@ -12,6 +12,7 @@ dependencies:
   better_player_plus: ^1.0.8
   web_socket_channel: ^3.0.3
   stroke_text: ^1.0.0
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:
