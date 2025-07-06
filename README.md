@@ -10,8 +10,8 @@ cd decent-movies-frontend/decent_flutter
 ```
 
 ## Contribute
-* Head into lib/ and modify main.dart, http.dart, etc.
-* Head into decent_flutter/CONTRIBUTING.md for a more specific breakdown of structure
+* Head into [lib/](https://github.com/lammmab/decent-movies-frontend/tree/main/decent_flutter/lib) and modify main.dart, pages/settingspage.dart, etc.
+* Head [here](https://github.com/lammmab/decent-movies-frontend/blob/main/decent_flutter/CONTRIBUTING.md) for a more specific breakdown of structure
 
 ## Building:
 * Run this in decent_flutter/:
