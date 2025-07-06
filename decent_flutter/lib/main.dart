@@ -3,7 +3,9 @@ import 'widgets/search.dart';
 
 import 'pages/connect.dart';
 import 'pages/settingspage.dart';
+import 'pages/results.dart';
 
+import 'package:decent_flutter/widgets/title.dart';
 import 'widgets/settings.dart';
 void main() {
   runApp(const MainApp());
@@ -34,18 +36,42 @@ class MainApp extends StatelessWidget {
             ),
             Center(
               child: ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 500),
+                constraints: const BoxConstraints(maxWidth: 500),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
+                      const Text(
                         "decent-movies",
-                        style: const TextStyle(color: Colors.white, fontSize: 24),
+                        style: TextStyle(color: Colors.white, fontSize: 24),
                       ),
                       const SizedBox(height: 12),
-                      Bar(),
+                      Builder(
+                        builder: (context) {
+                          return Bar(
+                            onSubmitted: (query) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => Results(
+                                    query: query, 
+                                    results: [ // MAKE THIS DYNAMIC ONCE WE GET THE BACKEND SETUP
+                                      TitleWidget(
+                                        name: "Amazing World of Gumball",
+                                        imageUrl: "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTrT7oXKTplqRxYMZqclB1V4N0xJVSEU7zqBRdiU_tfu1BRhUrmUrnTnuWf66YQ8t_eEnaM-g",
+                                        metadata: {
+                                          "Year": "2023",
+                                          "Type": "Movie",
+                                          "Rating": "PG-13",
+                                        },)
+                                    ]
+                                    ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),

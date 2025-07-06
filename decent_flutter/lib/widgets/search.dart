@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
 class Bar extends StatelessWidget {
-  const Bar({super.key});
+  final ValueChanged<String> onSubmitted;
+
+  const Bar({super.key, required this.onSubmitted});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: TextField(
+        onSubmitted: onSubmitted,
         decoration: InputDecoration(
           filled: true,
           fillColor: const Color.fromARGB(255, 255, 255, 255),
@@ -24,4 +27,3 @@ class Bar extends StatelessWidget {
     );
   }
 }
-
