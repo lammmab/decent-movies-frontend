@@ -30,9 +30,9 @@ class Progress {
 class SaveData {
   final String token;
   final String backendUrl;
-  final List<Progress> savedProgress;
+  final List<Progress>? savedProgress;
 
-  SaveData({required this.token, required this.backendUrl, required this.savedProgress});
+  SaveData({required this.token, required this.backendUrl, this.savedProgress});
 
   String normalizeTitle(String title) {
     return title
@@ -51,12 +51,14 @@ class SaveData {
 Future<void> saveData(SaveData saveData) async {
   final prefs = await SharedPreferences.getInstance();
 
-
-  final jsonString = jsonEncode(saveData.savedProgress.map((e) => e.toJson()).toList());
-
+  final jsonString = jsonEncode(
+    saveData.savedProgress?.map((e) => e.toJson()).toList() ?? []
+  );
+  
+  await prefs.setString('savedProgress', jsonString);
   await prefs.setString('token', saveData.token);
   await prefs.setString('backendUrl', saveData.backendUrl);
-  await prefs.setString('savedProgress', jsonString);
+  
 }
 
 Future<List<Progress>> loadProgressListFromString(jsonString) async {

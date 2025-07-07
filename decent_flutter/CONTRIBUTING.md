@@ -20,4 +20,9 @@
 ```
 ## To work on:
 
-* settings page
+* Title page (titlepage.dart)
+* Video player (player.dart)
+* Error handling (UIError.dart, hook up http errors to them, and any other errors)
+* Subtitles (from backend plugin)
+* Settings page (create options (option.dart))
+* Plugin page (allow for changing plugin settings, removing plugins, disabling/enabling them)

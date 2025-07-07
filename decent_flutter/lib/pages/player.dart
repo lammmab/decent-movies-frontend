@@ -1,49 +1,56 @@
 import 'package:flutter/material.dart';
-import 'package:better_player_plus/better_player_plus.dart';
-import 'dart:io';
+import 'package:chewie/chewie.dart';
+import 'package:video_player/video_player.dart';
 
+class BasicVideoPlayer extends StatefulWidget {
+  final String url;
 
+  const BasicVideoPlayer({super.key, required this.url});
 
-class PlayerPage extends StatelessWidget {
-  final String videoUrl;
+  @override
+  _BasicVideoPlayerState createState() => _BasicVideoPlayerState();
+}
 
-  const PlayerPage({super.key, required this.videoUrl});
+class _BasicVideoPlayerState extends State<BasicVideoPlayer> {
+  late VideoPlayerController _videoPlayerController;
+  ChewieController? _chewieController;
 
-  bool isMobile() {
-    return !(Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+  @override
+  void initState() {
+    super.initState();
+    _initializePlayer();
   }
 
-  Widget _buildMobilePlayer() {
-    return Scaffold(
-      body: BetterPlayer.network(
-        videoUrl,
-        betterPlayerConfiguration: BetterPlayerConfiguration(
-          autoPlay: true,
-          fit: BoxFit.contain,
-          errorBuilder: (context, error) {
-            return Center(
-              child: Text("Error loading video:\n$error"),
-            );
-          },
-        ),
-      ),
+  Future<void> _initializePlayer() async {
+    _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(widget.url));
+    await _videoPlayerController.initialize();
+
+    _chewieController = ChewieController(
+      videoPlayerController: _videoPlayerController,
+      autoPlay: true,
+      looping: true,
     );
+
+    setState(() {});
   }
 
-  Widget _buildDesktopPlayer() {
-    return Scaffold(
-          appBar: AppBar(title: const Text('Desktop Video Player')),
-          body: const Center(child: Text("Desktop player coming soon")),
-    );
+  @override
+  void dispose() {
+    _videoPlayerController.dispose();
+    _chewieController?.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (isMobile()) {
-      return _buildMobilePlayer();
-    } else {
-      return _buildDesktopPlayer();
-    }
+    return Scaffold(
+      appBar: AppBar(title: const Text('Basic Video Player')),
+      body: Center(
+        child: _chewieController != null &&
+                _chewieController!.videoPlayerController.value.isInitialized
+            ? Chewie(controller: _chewieController!)
+            : const CircularProgressIndicator(),
+      ),
+    );
   }
 }
-

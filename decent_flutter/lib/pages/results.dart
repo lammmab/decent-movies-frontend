@@ -8,6 +8,13 @@ class Results extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, List<Widget>> groupedResults = {};
+
+    for (var pluginResult in results) {
+      groupedResults.putIfAbsent(pluginResult.pluginName, () => []);
+      groupedResults[pluginResult.pluginName]!.add(pluginResult.title);
+    }
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 39, 39, 39),
       appBar: AppBar(
@@ -19,21 +26,44 @@ class Results extends StatelessWidget {
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Padding(
-        padding: EdgeInsets.all(12.0),
-        child: GridView.builder(
-          itemCount: results.length,
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 300,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-            childAspectRatio: 2 / 3,
-            ), 
-          itemBuilder: (context,index) {
-            final result = results[index];
-            return result;
-          },
-          )
-      )
+        padding: const EdgeInsets.all(12.0),
+        child: ListView(
+          children: groupedResults.entries.map((entry) {
+            final pluginName = entry.key;
+            final pluginWidgets = entry.value;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  pluginName,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: pluginWidgets.length,
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 300,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    childAspectRatio: 2 / 3,
+                  ),
+                  itemBuilder: (context, index) {
+                    return pluginWidgets[index];
+                  },
+                ),
+                const SizedBox(height: 24),
+              ],
+            );
+          }).toList(),
+        ),
+      ),
     );
   }
 }
