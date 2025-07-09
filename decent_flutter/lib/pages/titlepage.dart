@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import '../utils/http.dart';
 import '../utils/save.dart';
-import './player.dart';
+import '../player/webview.dart';
 class StaticTitleImage extends StatelessWidget {
   final String? imageUrl;
   final bool blur;
@@ -207,8 +207,8 @@ Widget build(BuildContext context) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => BasicVideoPlayer(
-                          url: response['episode']['servers']['servers']['default']['url'],
+                        builder: (context) => MyBrowser(
+                          title: response['episode']['servers']['servers']['default']['url'],
                         ),
                       ),
                     );
